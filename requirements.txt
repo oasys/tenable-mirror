@@ -1,0 +1,3 @@
+pyTenable==1.2.8
+deb-pkg-tools==8.4
+.
