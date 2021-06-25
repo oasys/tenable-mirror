@@ -1,6 +1,7 @@
 import json
 import os
 from hashlib import sha256
+from pathlib import Path
 
 from deb_pkg_tools.repo import update_repository
 from tenable.dl import Downloads
@@ -54,6 +55,10 @@ def remove_old_packages(packages, dir=REPO):
             os.remove(f"{dir}/{file}")
 
 
+def update_tracefile(dir):
+    Path(f"{dir}/.trace").touch()
+
+
 def main():
     for dist in ("ubuntu", "debian"):
         dir = f"{REPO}/{dist}"
@@ -62,6 +67,7 @@ def main():
         files = download_new_packages(Downloads(api_token=get_creds()), dist)
         remove_old_packages(files, dir)
         update_repository(dir)
+    update_tracefile(REPO)
 
 
 if __name__ == "__main__":
